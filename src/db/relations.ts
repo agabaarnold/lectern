@@ -1,6 +1,9 @@
-import { defineRelationsPart } from "drizzle-orm";
+import { defineRelations, defineRelationsPart } from "drizzle-orm";
 
+import { schema } from "./schema";
 import { accounts, sessions, users, verifications } from "./schema/auth.schema";
+
+export const relations = defineRelations(schema, () => ({}));
 
 export const authRelations = defineRelationsPart(
 	{ accounts, sessions, users, verifications },
