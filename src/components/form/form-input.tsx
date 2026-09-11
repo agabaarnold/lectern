@@ -1,6 +1,6 @@
 import { useFieldContext } from "#/hooks/form/use-form-context.ts";
 
-import { Field, FieldLabel } from "../ui/field";
+import { Field, FieldError, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 
 interface FormInputProps {
@@ -33,6 +33,8 @@ const FormInput = ({ label, placeholder, type }: FormInputProps) => {
 				type={type}
 				value={field.state.value}
 			/>
+
+			{isInvalid && <FieldError errors={field.state.meta.errors} />}
 		</Field>
 	);
 };
