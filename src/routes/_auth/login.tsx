@@ -2,6 +2,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
+import LoginForm from "#/features/auth/components/login-form.tsx";
+
 export const Route = createFileRoute("/_auth/login")({
 	component: RouteComponent,
 	validateSearch: z.object({
@@ -10,5 +12,9 @@ export const Route = createFileRoute("/_auth/login")({
 });
 
 function RouteComponent() {
-	return <div />;
+	return (
+		<div className="flex min-h-screen items-center justify-center">
+			<LoginForm />
+		</div>
+	);
 }

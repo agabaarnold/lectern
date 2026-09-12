@@ -7,15 +7,21 @@ import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 
 const config = defineConfig({
-  plugins: [
-    devtools(),
-    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
-    tailwindcss(),
-    tanstackStart(),
-    viteReact(),
-    babel({ presets: [reactCompilerPreset()] }),
-  ],
-  resolve: { tsconfigPaths: true },
+	plugins: [
+		devtools(),
+		nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+		tailwindcss(),
+		tanstackStart(),
+		viteReact(),
+		babel({ presets: [reactCompilerPreset()] }),
+	],
+	resolve: {
+		alias: {
+			"use-external-store/shim/with-selector":
+				"use-sync-external-store/shim/with-selector.js",
+		},
+		tsconfigPaths: true,
+	},
 });
 
 export default config;
