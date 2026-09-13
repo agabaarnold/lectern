@@ -6,6 +6,7 @@ import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 import { db } from "../db";
 import { schema } from "../db/schema";
+import { sendPasswordResetEmail } from "../features/email/functions/index.ts";
 import { ac, roles } from "./permissions";
 
 export const auth = betterAuth({
@@ -17,6 +18,9 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 		autoSignIn: false,
+		sendResetPassword: async ({ user, url }) => {
+			await sendPasswordResetEmail(user, url);
+		},
 	},
 	plugins: [
 		admin(),
