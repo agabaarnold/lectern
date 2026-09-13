@@ -2,19 +2,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
-import LoginForm from "#/features/auth/components/login-form.tsx";
+import ResetPasswordForm from "#/features/auth/components/reset-password-form.tsx";
 
-export const Route = createFileRoute("/_auth/login")({
-	component: LoginPage,
+export const Route = createFileRoute("/_auth/reset-password")({
+	component: ResetPasswordPage,
 	validateSearch: z.object({
-		redirect: z.string().optional(),
+		token: z.string().trim().optional(),
 	}),
 });
 
-function LoginPage() {
+function ResetPasswordPage() {
 	return (
 		<div className="flex min-h-screen items-center justify-center">
-			<LoginForm />
+			<ResetPasswordForm />
 		</div>
 	);
 }

@@ -1,0 +1,3 @@
+ALTER TABLE "sessions" DROP CONSTRAINT "sessions_active_organization_id_organizations_id_fkey", ADD CONSTRAINT "sessions_active_organization_id_organizations_id_fkey" FOREIGN KEY ("active_organization_id") REFERENCES "organizations"("id") ON DELETE SET NULL;--> statement-breakpoint
+ALTER TABLE "courses" DROP CONSTRAINT "courses_organization_id_organizations_id_fkey", ADD CONSTRAINT "courses_organization_id_organizations_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "organizations"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "purchases" DROP CONSTRAINT "purchases_course_id_courses_id_fkey", ADD CONSTRAINT "purchases_course_id_courses_id_fkey" FOREIGN KEY ("course_id") REFERENCES "courses"("id") ON DELETE CASCADE;

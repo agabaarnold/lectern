@@ -9,8 +9,8 @@ import tanstackJsPlugins from "ultracite/oxlint/tanstack/js-plugins";
 const jsPlugins = selectJsPlugins(["github", "sonarjs", "react-doctor"]);
 
 export default defineConfig({
-  extends: [core, react, tanstack, tanstackJsPlugins, antiSlop, jsPlugins],
-  ignorePatterns: core.ignorePatterns,
-  jsPlugins: jsPlugins.jsPlugins,
-  settings: jsPluginSettings,
+	extends: [core, react, tanstack, tanstackJsPlugins, antiSlop, jsPlugins],
+	ignorePatterns: core.ignorePatterns,
+	jsPlugins: jsPlugins.jsPlugins,
+	settings: jsPluginSettings,
 });
