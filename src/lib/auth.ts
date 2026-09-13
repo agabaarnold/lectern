@@ -6,6 +6,7 @@ import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 import { db } from "../db";
 import { schema } from "../db/schema";
+import { sendPasswordResetEmail } from "../features/email/functions/index.ts";
 import { ac, roles } from "./permissions";
 
 export const auth = betterAuth({
@@ -17,6 +18,31 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 		autoSignIn: false,
+		revokeSessionsOnPasswordReset: true,
+		// oxlint-disable-next-line require-await
+		sendResetPassword: async ({ user, url }) => {
+			// oxlint-disable-next-line promise/prefer-await-to-then promise/prefer-await-to-callbacks github/no-then
+			void sendPasswordResetEmail(user, url).catch((error) => {
+				console.error("Failed to send password-reset email", error);
+			});
+		},
+	},
+	rateLimit: {
+		storage: "database",
+		customRules: {
+			"/sign-in/email": {
+				window: 10,
+				max: 3,
+			},
+			"/forgot-password": {
+				window: 60,
+				max: 3,
+			},
+			"/reset-password": {
+				window: 60,
+				max: 5,
+			},
+		},
 	},
 	plugins: [
 		admin(),
