@@ -24,6 +24,23 @@ export const auth = betterAuth({
 			void sendPasswordResetEmail(user, url);
 		},
 	},
+	rateLimit: {
+		storage: "database",
+		customRules: {
+			"/sign-in/email": {
+				window: 10,
+				max: 3,
+			},
+			"/forgot-password": {
+				window: 60,
+				max: 3,
+			},
+			"/reset-password": {
+				window: 60,
+				max: 5,
+			},
+		},
+	},
 	plugins: [
 		admin(),
 		organization({
