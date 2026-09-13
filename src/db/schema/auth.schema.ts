@@ -137,7 +137,7 @@ export const members = pgTable(
 	]
 );
 
-export const rateLimit = pgTable("rate_limit", {
+export const rateLimits = pgTable("rate_limits", {
 	id: text("id").primaryKey(),
 	key: text("key").notNull().unique(),
 	count: integer("count").notNull(),
