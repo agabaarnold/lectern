@@ -14,6 +14,7 @@ import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
+import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
@@ -40,6 +41,11 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
 const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -56,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/reset-password': typeof AuthResetPasswordRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
@@ -63,6 +70,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/reset-password': typeof AuthResetPasswordRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
@@ -72,14 +80,27 @@ export interface FileRoutesById {
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
+  '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/forgot-password' | '/login' | '/register' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forgot-password' | '/login' | '/register' | '/api/auth/$'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/_auth'
@@ -87,6 +108,7 @@ export interface FileRouteTypes {
     | '/_auth/forgot-password'
     | '/_auth/login'
     | '/_auth/register'
+    | '/_auth/reset-password'
     | '/_protected/'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
@@ -134,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/_auth/reset-password': {
+      id: '/_auth/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/_protected/': {
       id: '/_protected/'
       path: '/'
@@ -155,12 +184,14 @@ interface AuthRouteRouteChildren {
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  AuthResetPasswordRoute: AuthResetPasswordRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
