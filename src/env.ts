@@ -10,6 +10,7 @@ export const env = createEnv({
 		SMTP_PORT: z.string(),
 		SMTP_USER: z.string(),
 		SMTP_PASS: z.string(),
+		SMTP_FROM: z.email(),
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,
