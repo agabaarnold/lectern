@@ -4,6 +4,8 @@ import {
 	text,
 	timestamp,
 	boolean,
+	integer,
+	bigint,
 	index,
 	uniqueIndex,
 	jsonb,
@@ -134,6 +136,13 @@ export const members = pgTable(
 		uniqueIndex("member_org_user_idx").on(table.organizationId, table.userId),
 	]
 );
+
+export const rateLimit = pgTable("rate_limit", {
+	id: text("id").primaryKey(),
+	key: text("key").notNull().unique(),
+	count: integer("count").notNull(),
+	lastRequest: bigint("last_request", { mode: "number" }).notNull(),
+});
 
 export const invitations = pgTable(
 	"invitations",
