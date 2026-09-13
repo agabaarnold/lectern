@@ -15,11 +15,14 @@ export const sendPasswordResetEmail = async (
 	user: { email: string; name: string | null },
 	url: string
 ) => {
+	const forgotPasswordUrl = `${env.BETTER_AUTH_URL}/forgot-password`;
+
 	const html = await render(
 		PasswordResetEmail({
 			userFirstname: user.name?.split(" ")[0] ?? "there",
 			resetUrl: url,
-		}),
+			forgotPasswordUrl,
+		})
 	);
 
 	await transporter.sendMail({
