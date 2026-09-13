@@ -5,13 +5,13 @@ import { z } from "zod";
 import LoginForm from "#/features/auth/components/login-form.tsx";
 
 export const Route = createFileRoute("/_auth/login")({
-	component: RouteComponent,
+	component: LoginPage,
 	validateSearch: z.object({
 		redirect: z.string().optional(),
 	}),
 });
 
-function RouteComponent() {
+function LoginPage() {
 	return (
 		<div className="flex min-h-screen items-center justify-center">
 			<LoginForm />
