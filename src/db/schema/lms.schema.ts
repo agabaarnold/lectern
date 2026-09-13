@@ -13,7 +13,7 @@ import {
 
 import { organizations, users } from "./auth.schema";
 
-const muxUploadStatusEnum = pgEnum("mux_upload_status", [
+export const muxUploadStatusEnum = pgEnum("mux_upload_status", [
 	"waiting",
 	"processing",
 	"ready",
