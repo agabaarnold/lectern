@@ -38,7 +38,7 @@ const RegisterForm = () => {
 						toast.success(
 							"Account created successfully. Proceed to log-in with your credentials"
 						);
-						navigate({ to: "/", replace: true });
+						navigate({ to: "/login", replace: true });
 					},
 				},
 			});
