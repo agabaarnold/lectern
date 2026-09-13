@@ -18,7 +18,7 @@ const owner = ac.newRole({
 	...ownerAc.statements,
 });
 
-const admin = ac.newRole({
+const orgAdmin = ac.newRole({
 	course: ["create", "update", "delete", "publish"],
 	...adminAc.statements,
 });
@@ -29,4 +29,4 @@ const instructor = ac.newRole({
 	...memberAc.statements,
 });
 
-export const roles = { owner, admin, instructor } as const;
+export const roles = { owner, orgAdmin, instructor } as const;
