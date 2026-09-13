@@ -12,7 +12,10 @@ export const passwordSchema = z
 		PASSWORD_MIN_LENGTH,
 		`Password must be at least ${PASSWORD_MIN_LENGTH} characters`
 	)
-	.max(PASSWORD_MAX_LENGTH, `Password must not exceed ${PASSWORD_MAX_LENGTH} characters`)
+	.max(
+		PASSWORD_MAX_LENGTH,
+		`Password must not exceed ${PASSWORD_MAX_LENGTH} characters`
+	)
 	.regex(/[A-Z]/u, "Password must contain at least one uppercase letter")
 	.regex(/[a-z]/u, "Password must contain at least one lowercase letter")
 	.regex(/[0-9]/u, "Password must contain at least one number")
