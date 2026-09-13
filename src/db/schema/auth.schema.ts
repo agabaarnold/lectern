@@ -1,22 +1,29 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index, uniqueIndex, jsonb } from "drizzle-orm/pg-core";
 
-export const users = pgTable("users", {
-	id: text("id").primaryKey(),
-	name: text("name").notNull(),
-	email: text("email").notNull().unique(),
-	emailVerified: boolean("email_verified").default(false).notNull(),
-	image: text("image"),
-	createdAt: timestamp("created_at").defaultNow().notNull(),
-	updatedAt: timestamp("updated_at")
-		.defaultNow()
-		.$onUpdate(() => /* @__PURE__ */ new Date())
-		.notNull(),
-	role: text("role"),
-	banned: boolean("banned").default(false),
-	banReason: text("ban_reason"),
-	banExpires: timestamp("ban_expires"),
-});
+export const users = pgTable(
+	"users",
+	{
+		id: text("id").primaryKey(),
+		name: text("name").notNull(),
+		email: text("email").notNull().unique(),
+		emailVerified: boolean("email_verified").default(false).notNull(),
+		image: text("image"),
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		updatedAt: timestamp("updated_at")
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date())
+			.notNull(),
+		role: text("role"),
+		banned: boolean("banned").default(false),
+		banReason: text("ban_reason"),
+		banExpires: timestamp("ban_expires"),
+	},
+	(table) => [
+		index("users_role_idx").on(table.role),
+		index("users_banned_idx").on(table.banned).where(sql`${table.banned} = true`),
+	],
+);
 
 export const organizations = pgTable(
 	"organizations",
@@ -51,7 +58,10 @@ export const sessions = pgTable(
 			() => organizations.id,
 		),
 	},
-	(table) => [index("sessions_userId_idx").on(table.userId)]
+	(table) => [
+		index("sessions_userId_idx").on(table.userId),
+		index("sessions_impersonatedBy_idx").on(table.impersonatedBy),
+	]
 );
 
 export const accounts = pgTable(
