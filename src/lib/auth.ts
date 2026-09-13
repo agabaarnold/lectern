@@ -1,9 +1,11 @@
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
+import { organization } from "better-auth/plugins/organization";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 import { db } from "../db";
 import { schema } from "../db/schema";
+import { ac, roles } from "./permissions";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
@@ -14,7 +16,10 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 	},
-	plugins: [tanstackStartCookies()],
+	plugins: [
+		organization({ ac, creatorRole: "owner", roles }),
+		tanstackStartCookies(),
+	],
 	session: {
 		cookieCache: {
 			enabled: true,
@@ -22,3 +27,5 @@ export const auth = betterAuth({
 		},
 	},
 });
+
+export type Session = typeof auth.$Infer.Session;
