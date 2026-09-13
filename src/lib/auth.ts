@@ -17,7 +17,13 @@ export const auth = betterAuth({
 		enabled: true,
 	},
 	plugins: [
-		organization({ ac, creatorRole: "owner", roles }),
+		organization({
+			ac,
+			creatorRole: "owner",
+			roles,
+			allowUserToCreateOrganization: true,
+			requireEmailVerificationOnInvitation: true,
+		}),
 		tanstackStartCookies(),
 	],
 	session: {
