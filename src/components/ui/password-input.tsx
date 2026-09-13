@@ -25,6 +25,8 @@ const PasswordInput = ({ placeholder, ...props }: PasswordInputProps) => {
 
 			<InputGroupAddon align="inline-end">
 				<InputGroupButton
+					aria-label={showPassword ? "Hide password" : "Show password"}
+					aria-pressed={showPassword}
 					onClick={() => setShowPassword((prev) => !prev)}
 					size="icon-sm"
 					type="button"
