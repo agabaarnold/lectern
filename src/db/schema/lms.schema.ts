@@ -35,7 +35,7 @@ export const courses = pgTable(
 		id: text("id").primaryKey(),
 		organizationId: text("organization_id")
 			.notNull()
-			.references(() => organizations.id),
+			.references(() => organizations.id, { onDelete: "cascade" }),
 		createdByUserId: text("created_by_user_id")
 			.notNull()
 			// attribution only, not ownership
@@ -103,7 +103,7 @@ export const purchases = pgTable(
 			.references(() => users.id),
 		courseId: text("course_id")
 			.notNull()
-			.references(() => courses.id),
+			.references(() => courses.id, { onDelete: "cascade" }),
 		stripeSessionId: text("stripe_session_id").notNull().unique(),
 		amountCents: integer("amount_cents").notNull(),
 		createdAt: timestamp("created_at").notNull().defaultNow(),
