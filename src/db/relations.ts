@@ -19,6 +19,10 @@ export const relations = defineRelations(schema, (r) => ({
 		}),
 	},
 
+	categories: {
+		courses: r.many.courses(),
+	},
+
 	courses: {
 		organizations: r.one.organizations({
 			from: r.courses.organizationId,
@@ -35,6 +39,7 @@ export const relations = defineRelations(schema, (r) => ({
 		chapters: r.many.chapters(),
 		attachments: r.many.attachments(),
 		reviews: r.many.reviews(),
+		purchases: r.many.purchases(),
 	},
 
 	chapters: {
@@ -43,6 +48,16 @@ export const relations = defineRelations(schema, (r) => ({
 			to: r.courses.id,
 		}),
 		progress: r.many.usersProgress(),
+	},
+
+	organizations: {
+		courses: r.many.courses(),
+	},
+
+	users: {
+		courses: r.many.courses(),
+		purchases: r.many.purchases(),
+		reviews: r.many.reviews(),
 	},
 
 	usersProgress: {
