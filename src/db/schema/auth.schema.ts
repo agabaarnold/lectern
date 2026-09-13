@@ -1,5 +1,13 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index, uniqueIndex, jsonb } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	text,
+	timestamp,
+	boolean,
+	index,
+	uniqueIndex,
+	jsonb,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable(
 	"users",
@@ -21,8 +29,10 @@ export const users = pgTable(
 	},
 	(table) => [
 		index("users_role_idx").on(table.role),
-		index("users_banned_idx").on(table.banned).where(sql`${table.banned} = true`),
-	],
+		index("users_banned_idx")
+			.on(table.banned)
+			.where(sql`${table.banned} = true`),
+	]
 );
 
 export const organizations = pgTable(
@@ -55,7 +65,7 @@ export const sessions = pgTable(
 			.references(() => users.id, { onDelete: "cascade" }),
 		impersonatedBy: text("impersonated_by"),
 		activeOrganizationId: text("active_organization_id").references(
-			() => organizations.id,
+			() => organizations.id
 		),
 	},
 	(table) => [
