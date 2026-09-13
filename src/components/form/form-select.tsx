@@ -33,7 +33,16 @@ const FormSelect = <T,>({
 			<FieldLabel htmlFor={field.name}>{label}</FieldLabel>
 
 			<Select
-				onValueChange={(e) => field.handleChange(e)}
+				onValueChange={(value) => {
+					if (value === null) {
+						return;
+					}
+
+					const option = options.find((item) => getOptionValue(item) === value);
+					if (option !== undefined) {
+						field.handleChange(option);
+					}
+				}}
 				value={selectedValue}
 			>
 				<SelectTrigger id={field.name}>
