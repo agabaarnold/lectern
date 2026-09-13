@@ -11,7 +11,73 @@ import {
 	verifications,
 } from "./schema/auth.schema";
 
-export const relations = defineRelations(schema, () => ({}));
+export const relations = defineRelations(schema, (r) => ({
+	attachments: {
+		course: r.one.courses({
+			from: r.attachments.courseId,
+			to: r.courses.id,
+		}),
+	},
+
+	courses: {
+		organizations: r.one.organizations({
+			from: r.courses.organizationId,
+			to: r.organizations.id,
+		}),
+		createdBy: r.one.users({
+			from: r.courses.createdByUserId,
+			to: r.users.id,
+		}),
+		category: r.one.categories({
+			from: r.courses.categoryId,
+			to: r.categories.id,
+		}),
+		chapters: r.many.chapters(),
+		attachments: r.many.attachments(),
+		reviews: r.many.reviews(),
+	},
+
+	chapters: {
+		course: r.one.courses({
+			from: r.chapters.courseId,
+			to: r.courses.id,
+		}),
+		progress: r.many.usersProgress(),
+	},
+
+	usersProgress: {
+		user: r.one.users({
+			from: r.usersProgress.userId,
+			to: r.users.id,
+		}),
+		chapter: r.one.chapters({
+			from: r.usersProgress.chapterId,
+			to: r.chapters.id,
+		}),
+	},
+
+	reviews: {
+		course: r.one.courses({
+			from: r.reviews.courseId,
+			to: r.courses.id,
+		}),
+		user: r.one.users({
+			from: r.reviews.userId,
+			to: r.users.id,
+		}),
+	},
+
+	purchases: {
+		user: r.one.users({
+			from: r.purchases.userId,
+			to: r.users.id,
+		}),
+		course: r.one.courses({
+			from: r.purchases.courseId,
+			to: r.courses.id,
+		}),
+	},
+}));
 
 export const authRelations = defineRelationsPart(
 	{
