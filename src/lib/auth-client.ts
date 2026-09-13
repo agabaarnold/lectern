@@ -1,8 +1,15 @@
-import { inferAdditionalFields, organizationClient } from "better-auth/client/plugins";
+import {
+	inferAdditionalFields,
+	organizationClient,
+} from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 
 import type { auth } from "./auth";
+import { ac, roles } from "./permissions";
 
 export const authClient = createAuthClient({
-	plugins: [organizationClient(), inferAdditionalFields<typeof auth>()],
+	plugins: [
+		organizationClient({ ac, roles }),
+		inferAdditionalFields<typeof auth>(),
+	],
 });
