@@ -165,7 +165,7 @@ const FieldError = ({
 	errors,
 	...props
 }: React.ComponentProps<"div"> & {
-	errors?: ({ message?: string } | undefined)[];
+	errors?: (string | { message?: string } | undefined)[];
 }) => {
 	const content = (() => {
 		if (children) {
@@ -176,20 +176,34 @@ const FieldError = ({
 			return null;
 		}
 
-		const uniqueErrors = [
-			...new Map(errors.map((error) => [error?.message, error])).values(),
-		];
+		const uniqueErrors = new Set<string>();
 
-		if (uniqueErrors?.length === 1) {
-			return uniqueErrors[0]?.message;
+		for (const error of errors ?? []) {
+			if (error === null) {
+				continue;
+			}
+
+			if (error instanceof Object && "message" in error) {
+				const { message } = error;
+				if (message) {
+					uniqueErrors.add(message);
+				}
+			} else if (!(error instanceof Object)) {
+				uniqueErrors.add(String(error));
+			}
+		}
+
+		const messages = [...uniqueErrors];
+
+		if (messages.length === 1) {
+			return messages[0];
 		}
 
 		return (
 			<ul className="ml-4 flex list-disc flex-col gap-1">
-				{uniqueErrors.map(
-					(error) =>
-						error?.message && <li key={error.message}>{error.message}</li>
-				)}
+				{messages.map((message) => (
+					<li key={message}>{message}</li>
+				))}
 			</ul>
 		);
 	})();
