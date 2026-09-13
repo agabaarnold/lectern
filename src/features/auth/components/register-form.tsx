@@ -28,7 +28,7 @@ const RegisterForm = () => {
 	const form = useAppForm({
 		defaultValues,
 		onSubmit: async ({ value }) => {
-			await authClient.signIn.email({
+			await authClient.signUp.email({
 				...value,
 				fetchOptions: {
 					onError: ({ error }) => {
@@ -84,7 +84,7 @@ const RegisterForm = () => {
 								<field.FormInput
 									label="Email address"
 									placeholder="Enter your email address"
-									type="text"
+									type="email"
 								/>
 							)}
 						</form.AppField>
