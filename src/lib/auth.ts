@@ -1,5 +1,6 @@
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
+import { admin } from "better-auth/plugins/admin";
 import { organization } from "better-auth/plugins/organization";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
@@ -18,6 +19,7 @@ export const auth = betterAuth({
 		autoSignIn: false,
 	},
 	plugins: [
+		admin(),
 		organization({
 			ac,
 			creatorRole: "owner",
