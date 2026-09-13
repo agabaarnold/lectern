@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MAX_LENGTH = 128;
 const NAME_MIN_LENGTH = 4;
 
 const whiteSpaceRegex = /\s/u;
@@ -11,10 +12,10 @@ export const passwordSchema = z
 		PASSWORD_MIN_LENGTH,
 		`Password must be at least ${PASSWORD_MIN_LENGTH} characters`
 	)
-	.max(128, "Password must not exceed 128 characters")
+	.max(PASSWORD_MAX_LENGTH, `Password must not exceed ${PASSWORD_MAX_LENGTH} characters`)
 	.regex(/[A-Z]/u, "Password must contain at least one uppercase letter")
 	.regex(/[a-z]/u, "Password must contain at least one lowercase letter")
-	.regex(/[0-9]/u, "Password must contaion at least one number")
+	.regex(/[0-9]/u, "Password must contain at least one number")
 	.regex(
 		/[^A-Za-z0-9\s]/u,
 		"Password must contain at least one special character"
