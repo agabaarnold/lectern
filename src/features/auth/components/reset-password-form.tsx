@@ -39,7 +39,7 @@ const ResetPasswordForm = () => {
 					},
 					onSuccess: () => {
 						toast.success("Password reset successfully");
-						navigate({ to: "/", replace: true });
+						navigate({ to: "/login", replace: true });
 					},
 				},
 			});
@@ -81,10 +81,10 @@ const ResetPasswordForm = () => {
 		<Card className="w-full max-w-sm shadow-md md:max-w-md">
 			<CardHeader className="text-center">
 				<CardTitle className="text-xl font-semibold">
-					Request Password Reset
+					Reset your password
 				</CardTitle>
 				<CardDescription>
-					Enter your email address below to receive password reset instructions
+					Enter and confirm your new password below
 				</CardDescription>
 			</CardHeader>
 
