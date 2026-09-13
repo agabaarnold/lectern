@@ -18,8 +18,10 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 		autoSignIn: false,
+		revokeSessionsOnPasswordReset: true,
+		// oxlint-disable-next-line require-await
 		sendResetPassword: async ({ user, url }) => {
-			await sendPasswordResetEmail(user, url);
+			void sendPasswordResetEmail(user, url);
 		},
 	},
 	plugins: [
