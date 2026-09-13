@@ -21,7 +21,10 @@ export const auth = betterAuth({
 		revokeSessionsOnPasswordReset: true,
 		// oxlint-disable-next-line require-await
 		sendResetPassword: async ({ user, url }) => {
-			void sendPasswordResetEmail(user, url);
+			// oxlint-disable-next-line promise/prefer-await-to-then promise/prefer-await-to-callbacks github/no-then
+			void sendPasswordResetEmail(user, url).catch((error) => {
+				console.error("Failed to send password-reset email", error);
+			});
 		},
 	},
 	rateLimit: {
