@@ -15,11 +15,13 @@ import {
 interface PasswordResetEmailProps {
 	userFirstname: string;
 	resetUrl: string;
+	forgotPasswordUrl: string;
 }
 
 export const PasswordResetEmail = ({
 	userFirstname,
 	resetUrl,
+	forgotPasswordUrl,
 }: PasswordResetEmailProps) => (
 	<Html>
 		<Head />
@@ -50,7 +52,7 @@ export const PasswordResetEmail = ({
 					<Hr className="my-6 border-t border-none border-gray-200" />
 					<Text className="text-sm leading-relaxed text-gray-400">
 						This link will expire in 1 hour. If you need a new reset link, visit{" "}
-						<Link href={resetUrl} className="text-black underline">
+						<Link href={forgotPasswordUrl} className="text-black underline">
 							forgot password
 						</Link>
 						.
