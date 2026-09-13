@@ -65,7 +65,8 @@ export const sessions = pgTable(
 			.references(() => users.id, { onDelete: "cascade" }),
 		impersonatedBy: text("impersonated_by"),
 		activeOrganizationId: text("active_organization_id").references(
-			() => organizations.id
+			() => organizations.id,
+			{ onDelete: "set null" }
 		),
 	},
 	(table) => [
