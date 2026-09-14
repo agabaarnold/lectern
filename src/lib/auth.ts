@@ -73,7 +73,7 @@ export const auth = betterAuth({
 			requireEmailVerificationOnInvitation: true,
 		}),
 		lastLoginMethod(),
-		haveIBeenPwned(),
+		haveIBeenPwned({enabled: env.NODE_ENV === "production"}),
 		tanstackStartCookies(),
 	],
 	session: {
