@@ -14,6 +14,6 @@ export const authClient = createAuthClient({
 		adminClient(),
 		organizationClient({ ac, roles }),
 		inferAdditionalFields<typeof auth>(),
-		lastLoginMethodClient()
+		lastLoginMethodClient(),
 	],
 });
