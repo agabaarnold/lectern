@@ -19,6 +19,8 @@ export const env = createEnv({
 		// Github config
 		GITHUB_CLIENT_ID: z.string(),
 		GITHUB_CLIENT_SECRET: z.string(),
+		// Node environment
+		NODE_ENV: z.enum(["development", "production"]).default("production"),
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,
