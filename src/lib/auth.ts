@@ -4,6 +4,8 @@ import { admin } from "better-auth/plugins/admin";
 import { organization } from "better-auth/plugins/organization";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
+import { env } from "#/env.ts";
+
 import { db } from "../db";
 import { schema } from "../db/schema";
 import { sendPasswordResetEmail } from "../features/email/functions/index.ts";
@@ -25,6 +27,17 @@ export const auth = betterAuth({
 			void sendPasswordResetEmail(user, url).catch((error) => {
 				console.error("Failed to send password-reset email", error);
 			});
+		},
+	},
+	socialProviders: {
+		google: {
+			clientId: env.GOOGLE_CLIENT_ID,
+			clientSecret: env.GOOGLE_CLIENT_SECRET,
+			prompt: "select_account consent",
+		},
+		github: {
+			clientId: env.GITHUB_CLIENT_ID,
+			clientSecret: env.GITHUB_CLIENT_SECRET,
 		},
 	},
 	rateLimit: {
