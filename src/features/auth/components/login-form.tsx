@@ -2,6 +2,10 @@ import { revalidateLogic } from "@tanstack/react-form-start";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { toast } from "react-hot-toast";
 
+import GithubIcon from "#/components/shared/icons/github-icon.tsx";
+import GoogleIcon from "#/components/shared/icons/google-icon.tsx";
+import { Badge } from "#/components/ui/badge.tsx";
+import { Button } from "#/components/ui/button.tsx";
 import {
 	Card,
 	CardContent,
@@ -9,7 +13,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "#/components/ui/card.tsx";
-import { FieldDescription, FieldGroup } from "#/components/ui/field.tsx";
+import {
+	Field,
+	FieldDescription,
+	FieldGroup,
+	FieldSeparator,
+} from "#/components/ui/field.tsx";
 import { useAppForm } from "#/hooks/form/use-form.ts";
 import { authClient } from "#/lib/auth-client.ts";
 
@@ -20,6 +29,22 @@ const defaultValues: LoginInput = {
 	email: "",
 	password: "",
 	rememberMe: false,
+};
+
+const handleGoogleLogin = async () => {
+	try {
+		await authClient.signIn.social({ provider: "google" });
+	} catch {
+		toast.error("Failed to sign in with Google");
+	}
+};
+
+const handleGithubLogin = async () => {
+	try {
+		await authClient.signIn.social({ provider: "github" });
+	} catch {
+		toast.error("Failed to sign in with Github");
+	}
 };
 
 const LoginForm = () => {
@@ -49,11 +74,17 @@ const LoginForm = () => {
 		validators: { onSubmit: loginSchema },
 	});
 
+	const lastMethod = authClient.getLastUsedLoginMethod();
+
 	return (
 		<Card className="w-full max-w-sm shadow-md md:max-w-md">
 			<CardHeader className="text-center">
-				<CardTitle className="text-xl font-semibold">Welcome back</CardTitle>
-				<CardDescription>Sign in to your account to continue</CardDescription>
+				<CardTitle className="text-xl font-semibold">
+					Sign in to Lectern
+				</CardTitle>
+				<CardDescription>
+					Welcome back! Please sign in to continue
+				</CardDescription>
 			</CardHeader>
 
 			<CardContent>
@@ -64,6 +95,34 @@ const LoginForm = () => {
 					}}
 				>
 					<FieldGroup>
+						<Field>
+							<Button
+								className="relative"
+								onClick={handleGithubLogin}
+								type="button"
+								variant="outline"
+							>
+								<GithubIcon /> Sign in with Github{" "}
+								{lastMethod === "github" && (
+									<Badge className="absolute -top-2 -right-2">Last used</Badge>
+								)}
+							</Button>
+
+							<Button
+								className="relative"
+								onClick={handleGoogleLogin}
+								type="button"
+								variant="outline"
+							>
+								<GoogleIcon /> Sign in with Google{" "}
+								{lastMethod === "google" && (
+									<Badge className="absolute -top-2 -right-2">Last used</Badge>
+								)}
+							</Button>
+						</Field>
+
+						<FieldSeparator>or continue with</FieldSeparator>
+
 						<form.AppField name="email">
 							{(field) => (
 								<field.FormInput
