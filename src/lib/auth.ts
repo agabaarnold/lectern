@@ -1,6 +1,8 @@
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
+import { lastLoginMethod } from "better-auth/plugins";
 import { admin } from "better-auth/plugins/admin";
+import { haveIBeenPwned } from "better-auth/plugins/haveibeenpwned";
 import { organization } from "better-auth/plugins/organization";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
@@ -70,6 +72,8 @@ export const auth = betterAuth({
 			allowUserToCreateOrganization: true,
 			requireEmailVerificationOnInvitation: true,
 		}),
+		lastLoginMethod(),
+		haveIBeenPwned(),
 		tanstackStartCookies(),
 	],
 	session: {
