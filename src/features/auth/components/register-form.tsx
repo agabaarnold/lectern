@@ -31,19 +31,25 @@ const defaultValues: RegisterInput = {
 };
 
 const handleGoogleSignup = async () => {
-	try {
-		await authClient.signIn.social({ provider: "google" });
-	} catch {
-		toast.error("Failed to sign in with Google");
-	}
+	await authClient.signIn.social({
+		provider: "google",
+		fetchOptions: {
+			onError: ({ error }) => {
+				toast.error(error.message);
+			},
+		},
+	});
 };
 
 const handleGithubSignup = async () => {
-	try {
-		await authClient.signIn.social({ provider: "github" });
-	} catch {
-		toast.error("Failed to sign in with Github");
-	}
+	await authClient.signIn.social({
+		provider: "github",
+		fetchOptions: {
+			onError: ({ error }) => {
+				toast.error(error.message);
+			},
+		},
+	});
 };
 
 const RegisterForm = () => {

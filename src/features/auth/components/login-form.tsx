@@ -32,19 +32,25 @@ const defaultValues: LoginInput = {
 };
 
 const handleGoogleLogin = async () => {
-	try {
-		await authClient.signIn.social({ provider: "google" });
-	} catch {
-		toast.error("Failed to sign in with Google");
-	}
+		await authClient.signIn.social({
+			provider: "google",
+			fetchOptions: {
+				onError: ({ error }) => {
+					toast.error(error.message);
+				},
+			},
+		});
 };
 
 const handleGithubLogin = async () => {
-	try {
-		await authClient.signIn.social({ provider: "github" });
-	} catch {
-		toast.error("Failed to sign in with Github");
-	}
+		await authClient.signIn.social({
+			provider: "github",
+			fetchOptions: {
+				onError: ({ error }) => {
+					toast.error(error.message);
+				},
+			},
+		});
 };
 
 const LoginForm = () => {
