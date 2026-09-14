@@ -2,6 +2,9 @@ import { revalidateLogic } from "@tanstack/react-form-start";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "react-hot-toast";
 
+import GithubIcon from "#/components/shared/icons/github-icon.tsx";
+import GoogleIcon from "#/components/shared/icons/google-icon.tsx";
+import { Button } from "#/components/ui/button.tsx";
 import {
 	Card,
 	CardContent,
@@ -9,7 +12,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "#/components/ui/card.tsx";
-import { FieldDescription, FieldGroup } from "#/components/ui/field.tsx";
+import {
+	Field,
+	FieldDescription,
+	FieldGroup,
+	FieldSeparator,
+} from "#/components/ui/field.tsx";
 import { useAppForm } from "#/hooks/form/use-form.ts";
 import { authClient } from "#/lib/auth-client.ts";
 
@@ -20,6 +28,28 @@ const defaultValues: RegisterInput = {
 	email: "",
 	name: "",
 	password: "",
+};
+
+const handleGoogleSignup = async () => {
+	await authClient.signIn.social({
+		provider: "google",
+		fetchOptions: {
+			onError: ({ error }) => {
+				toast.error(error.message);
+			},
+		},
+	});
+};
+
+const handleGithubSignup = async () => {
+	await authClient.signIn.social({
+		provider: "github",
+		fetchOptions: {
+			onError: ({ error }) => {
+				toast.error(error.message);
+			},
+		},
+	});
 };
 
 const RegisterForm = () => {
@@ -51,13 +81,13 @@ const RegisterForm = () => {
 	});
 
 	return (
-		<Card className="w-full max-w-sm shadow-md md:max-w-md">
+		<Card className="my-10 w-full max-w-sm shadow-md md:max-w-md">
 			<CardHeader className="text-center">
 				<CardTitle className="text-xl font-semibold">
-					Create an account
+					Create your account
 				</CardTitle>
 				<CardDescription>
-					Fill in the form below to create an account
+					Welcome! Please fill in the details to get started
 				</CardDescription>
 			</CardHeader>
 
@@ -104,6 +134,28 @@ const RegisterForm = () => {
 								submitLabel="Registering"
 							/>
 						</form.AppForm>
+
+						<FieldSeparator>or continue with</FieldSeparator>
+
+						<Field>
+							<Button
+								className="relative"
+								onClick={handleGithubSignup}
+								type="button"
+								variant="outline"
+							>
+								<GithubIcon /> Sign up with Github
+							</Button>
+
+							<Button
+								className="relative"
+								onClick={handleGoogleSignup}
+								type="button"
+								variant="outline"
+							>
+								<GoogleIcon /> Sign up with Google
+							</Button>
+						</Field>
 
 						<FieldDescription className="text-center">
 							Already have an account? <Link to="/login">Login</Link>

@@ -1,8 +1,12 @@
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
+import { lastLoginMethod } from "better-auth/plugins";
 import { admin } from "better-auth/plugins/admin";
+import { haveIBeenPwned } from "better-auth/plugins/haveibeenpwned";
 import { organization } from "better-auth/plugins/organization";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
+
+import { env } from "#/env.ts";
 
 import { db } from "../db";
 import { schema } from "../db/schema";
@@ -10,6 +14,7 @@ import { sendPasswordResetEmail } from "../features/email/functions/index.ts";
 import { ac, roles } from "./permissions";
 
 export const auth = betterAuth({
+	baseURL: env.BETTER_AUTH_URL,
 	database: drizzleAdapter(db, {
 		provider: "pg",
 		schema,
@@ -25,6 +30,20 @@ export const auth = betterAuth({
 			void sendPasswordResetEmail(user, url).catch((error) => {
 				console.error("Failed to send password-reset email", error);
 			});
+		},
+	},
+	socialProviders: {
+		google: {
+			clientId: env.GOOGLE_CLIENT_ID,
+			clientSecret: env.GOOGLE_CLIENT_SECRET,
+			prompt: "select_account consent",
+		},
+		github: {
+			clientId: env.GITHUB_CLIENT_ID,
+			clientSecret: env.GITHUB_CLIENT_SECRET,
+			mapProfileToUser: (profile) => ({
+				email: profile.email ?? `${profile.id}@github.placeholder.invalid`,
+			}),
 		},
 	},
 	rateLimit: {
@@ -52,6 +71,11 @@ export const auth = betterAuth({
 			roles,
 			allowUserToCreateOrganization: true,
 			requireEmailVerificationOnInvitation: true,
+		}),
+		lastLoginMethod(),
+		haveIBeenPwned({
+			enabled: env.NODE_ENV === "production",
+			customPasswordCompromisedMessage: "Please choose a more secure password.",
 		}),
 		tanstackStartCookies(),
 	],
