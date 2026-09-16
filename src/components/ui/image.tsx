@@ -12,9 +12,28 @@ export type ImageProps = Omit<
 	React.ComponentPropsWithoutRef<"img">,
 	"src" | "width" | "height" | "loading" | "referrerPolicy"
 > & {
+	/**
+	 * Image source.
+	 */
 	src: string;
+
+	/**
+	 * Alternative text.
+	 */
 	alt: string;
+
+	/**
+	 * Intrinsic image width.
+	 *
+	 * Required unless `fill` is true.
+	 */
 	width?: number;
+
+	/**
+	 * Intrinsic image height.
+	 *
+	 * Required unless `fill` is true.
+	 */
 	height?: number;
 
 	/**
