@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
 import { Button } from "#/components/ui/button.tsx";
@@ -25,6 +26,7 @@ const InviteMemberForm = ({ organizationId }: InviteMemberFormProps) => {
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState<(typeof inviteRoles)[number]>("instructor");
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const queryClient = useQueryClient();
 
 	const { data: canInvite, isPending } = useOrgPermission(organizationId, {
 		invitation: ["create"],
@@ -52,6 +54,9 @@ const InviteMemberForm = ({ organizationId }: InviteMemberFormProps) => {
 				onSuccess: () => {
 					toast.success(`Invited ${email}`);
 					setEmail("");
+					void queryClient.invalidateQueries({
+						queryKey: ["org-invitations", organizationId],
+					});
 				},
 			},
 		});
