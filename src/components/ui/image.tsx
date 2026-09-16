@@ -143,13 +143,13 @@ const validateImageProps = ({
 	ImageProps,
 	"fill" | "width" | "height" | "placeholder" | "blurDataURL"
 >) => {
-	if (!fill && (width === null || height === null) && import.meta.env.DEV) {
+	if (!fill && (width === undefined || height === undefined) && import.meta.env.DEV) {
 		throw new Error(
 			"Image: `width` and `height` are required unless `fill` is true."
 		);
 	}
 
-	if (fill && import.meta.env.DEV && (width !== null || height !== null)) {
+	if (fill && import.meta.env.DEV && (width !== undefined || height !== undefined)) {
 		console.warn(
 			"Image: `width` and `height` are ignored when `fill` is true."
 		);
