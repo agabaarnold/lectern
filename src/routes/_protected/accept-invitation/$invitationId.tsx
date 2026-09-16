@@ -38,7 +38,7 @@ function AcceptInvitationPage() {
 						});
 					}
 					toast.success("You've joined the school");
-					navigate({ to: "/" });
+					navigate({ to: "/dashboard" });
 				},
 			},
 		});
