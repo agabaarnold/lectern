@@ -32,25 +32,25 @@ const defaultValues: LoginInput = {
 };
 
 const handleGoogleLogin = async () => {
-		await authClient.signIn.social({
-			provider: "google",
-			fetchOptions: {
-				onError: ({ error }) => {
-					toast.error(error.message);
-				},
+	await authClient.signIn.social({
+		provider: "google",
+		fetchOptions: {
+			onError: ({ error }) => {
+				toast.error(error.message);
 			},
-		});
+		},
+	});
 };
 
 const handleGithubLogin = async () => {
-		await authClient.signIn.social({
-			provider: "github",
-			fetchOptions: {
-				onError: ({ error }) => {
-					toast.error(error.message);
-				},
+	await authClient.signIn.social({
+		provider: "github",
+		fetchOptions: {
+			onError: ({ error }) => {
+				toast.error(error.message);
 			},
-		});
+		},
+	});
 };
 
 const LoginForm = () => {
@@ -68,7 +68,7 @@ const LoginForm = () => {
 					},
 					onSuccess: () => {
 						toast.success("Welcome back!");
-						navigate({ to: search.redirect ?? "/", replace: true });
+						navigate({ to: search.redirect ?? "/dashboard", replace: true });
 					},
 				},
 			});
