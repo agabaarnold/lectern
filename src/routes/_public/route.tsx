@@ -46,9 +46,26 @@ function RouteComponent() {
 				</div>
 			</nav>
 
-			<main className="flex w-full grow items-center justify-center">
+			<main className="flex min-h-dvh w-full grow items-center justify-center">
 				<Outlet />
 			</main>
+
+			<footer className="bg-primary/75 text-secondary bottom-0 mt-10 w-full py-8 text-center text-sm">
+				<p>&copy; 2026 Lectern. All rights reserved</p>
+
+				<div className="mt-2">
+					{["About", "Privacy Policy", "Licensing", "Contact"].map((item) => (
+						<Link
+							className="mx-2"
+							key={item}
+							// @ts-expect-error: These pages are just placeholders
+							to={`/${item.toLowerCase().replace(" ", "-")}`}
+						>
+							{item}
+						</Link>
+					))}
+				</div>
+			</footer>
 		</div>
 	);
 }
