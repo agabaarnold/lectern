@@ -11,11 +11,11 @@ export const Route = createFileRoute("/_public")({
 function RouteComponent() {
 	return (
 		<div>
-			<nav className="sticky top-0 z-50 flex h-16 w-full shrink-0 justify-center backdrop-blur-lg">
+			<nav className="bg-primary/75 sticky top-0 z-50 flex h-16 w-full shrink-0 justify-center backdrop-blur-lg">
 				<div className="flex w-3/4 items-center justify-between py-8">
 					<div className="flex w-full items-center justify-between">
 						<Link
-							className="hover:text-muted-foreground text-lg font-bold sm:text-xl"
+							className="hover:text-muted-foreground text-secondary text-lg font-bold sm:text-xl"
 							to="/"
 						>
 							Lectern
