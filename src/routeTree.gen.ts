@@ -11,12 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
+import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
-import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
+import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicSearchRouteImport } from './routes/_public/search'
+import { Route as ProtectedAcceptInvitationInvitationIdRouteImport } from './routes/_protected/accept-invitation/$invitationId'
+import { Route as ProtectedOrganizationsNewRouteImport } from './routes/_protected/organizations/new'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ProtectedOrganizationsOrganizationIdMembersRouteImport } from './routes/_protected/organizations/$organizationId/members'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/_auth',
@@ -24,6 +30,10 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 } as any)
 const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
   id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
@@ -46,43 +56,87 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicSearchRoute = PublicSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const ProtectedAcceptInvitationInvitationIdRoute =
+  ProtectedAcceptInvitationInvitationIdRouteImport.update({
+    id: '/accept-invitation/$invitationId',
+    path: '/accept-invitation/$invitationId',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any)
+const ProtectedOrganizationsNewRoute =
+  ProtectedOrganizationsNewRouteImport.update({
+    id: '/organizations/new',
+    path: '/organizations/new',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedOrganizationsOrganizationIdMembersRoute =
+  ProtectedOrganizationsOrganizationIdMembersRouteImport.update({
+    id: '/organizations/$organizationId/members',
+    path: '/organizations/$organizationId/members',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof ProtectedIndexRoute
+  '/': typeof PublicIndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/dashboard': typeof ProtectedDashboardRoute
+  '/search': typeof PublicSearchRoute
+  '/accept-invitation/$invitationId': typeof ProtectedAcceptInvitationInvitationIdRoute
+  '/organizations/new': typeof ProtectedOrganizationsNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/organizations/$organizationId/members': typeof ProtectedOrganizationsOrganizationIdMembersRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof ProtectedIndexRoute
+  '/': typeof PublicIndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/dashboard': typeof ProtectedDashboardRoute
+  '/search': typeof PublicSearchRoute
+  '/accept-invitation/$invitationId': typeof ProtectedAcceptInvitationInvitationIdRoute
+  '/organizations/new': typeof ProtectedOrganizationsNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/organizations/$organizationId/members': typeof ProtectedOrganizationsOrganizationIdMembersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteRouteWithChildren
   '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/_public': typeof PublicRouteRouteWithChildren
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
-  '/_protected/': typeof ProtectedIndexRoute
+  '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_public/search': typeof PublicSearchRoute
+  '/_public/': typeof PublicIndexRoute
+  '/_protected/accept-invitation/$invitationId': typeof ProtectedAcceptInvitationInvitationIdRoute
+  '/_protected/organizations/new': typeof ProtectedOrganizationsNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_protected/organizations/$organizationId/members': typeof ProtectedOrganizationsOrganizationIdMembersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -92,7 +146,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/dashboard'
+    | '/search'
+    | '/accept-invitation/$invitationId'
+    | '/organizations/new'
     | '/api/auth/$'
+    | '/organizations/$organizationId/members'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,22 +159,34 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/dashboard'
+    | '/search'
+    | '/accept-invitation/$invitationId'
+    | '/organizations/new'
     | '/api/auth/$'
+    | '/organizations/$organizationId/members'
   id:
     | '__root__'
     | '/_auth'
     | '/_protected'
+    | '/_public'
     | '/_auth/forgot-password'
     | '/_auth/login'
     | '/_auth/register'
     | '/_auth/reset-password'
-    | '/_protected/'
+    | '/_protected/dashboard'
+    | '/_public/search'
+    | '/_public/'
+    | '/_protected/accept-invitation/$invitationId'
+    | '/_protected/organizations/new'
     | '/api/auth/$'
+    | '/_protected/organizations/$organizationId/members'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -133,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof ProtectedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/forgot-password': {
@@ -163,11 +241,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthResetPasswordRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/_protected/': {
-      id: '/_protected/'
+    '/_protected/dashboard': {
+      id: '/_protected/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ProtectedDashboardRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_public/': {
+      id: '/_public/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof ProtectedIndexRouteImport
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/search': {
+      id: '/_public/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof PublicSearchRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_protected/accept-invitation/$invitationId': {
+      id: '/_protected/accept-invitation/$invitationId'
+      path: '/accept-invitation/$invitationId'
+      fullPath: '/accept-invitation/$invitationId'
+      preLoaderRoute: typeof ProtectedAcceptInvitationInvitationIdRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/organizations/new': {
+      id: '/_protected/organizations/new'
+      path: '/organizations/new'
+      fullPath: '/organizations/new'
+      preLoaderRoute: typeof ProtectedOrganizationsNewRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
     '/api/auth/$': {
@@ -176,6 +282,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_protected/organizations/$organizationId/members': {
+      id: '/_protected/organizations/$organizationId/members'
+      path: '/organizations/$organizationId/members'
+      fullPath: '/organizations/$organizationId/members'
+      preLoaderRoute: typeof ProtectedOrganizationsOrganizationIdMembersRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
   }
 }
@@ -199,20 +312,43 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 )
 
 interface ProtectedRouteRouteChildren {
-  ProtectedIndexRoute: typeof ProtectedIndexRoute
+  ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedAcceptInvitationInvitationIdRoute: typeof ProtectedAcceptInvitationInvitationIdRoute
+  ProtectedOrganizationsNewRoute: typeof ProtectedOrganizationsNewRoute
+  ProtectedOrganizationsOrganizationIdMembersRoute: typeof ProtectedOrganizationsOrganizationIdMembersRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
-  ProtectedIndexRoute: ProtectedIndexRoute,
+  ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedAcceptInvitationInvitationIdRoute:
+    ProtectedAcceptInvitationInvitationIdRoute,
+  ProtectedOrganizationsNewRoute: ProtectedOrganizationsNewRoute,
+  ProtectedOrganizationsOrganizationIdMembersRoute:
+    ProtectedOrganizationsOrganizationIdMembersRoute,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
   ProtectedRouteRouteChildren,
 )
 
+interface PublicRouteRouteChildren {
+  PublicSearchRoute: typeof PublicSearchRoute
+  PublicIndexRoute: typeof PublicIndexRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicSearchRoute: PublicSearchRoute,
+  PublicIndexRoute: PublicIndexRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   AuthRouteRoute: AuthRouteRouteWithChildren,
   ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

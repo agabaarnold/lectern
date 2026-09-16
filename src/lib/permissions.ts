@@ -29,4 +29,8 @@ const instructor = ac.newRole({
 	...memberAc.statements,
 });
 
-export const roles = { owner, orgAdmin, instructor } as const;
+export const roles = { owner, orgAdmin, instructor };
+
+export type Permission = {
+	[K in keyof typeof ac.statements]?: (typeof ac.statements)[K][number][];
+};

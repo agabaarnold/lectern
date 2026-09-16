@@ -5,6 +5,7 @@ import { db } from "#/db";
 import { courses, purchases } from "#/db/schema/lms.schema.ts";
 
 import { auth } from "./auth";
+import type { Permission } from "./permissions";
 
 export const requireSession = async () => {
 	const headers = getRequestHeaders();
@@ -17,7 +18,7 @@ export const requireSession = async () => {
 
 export const requireOrgPermission = async (
 	organizationId: string,
-	permissions: Record<string, string[]>
+	permissions: Permission
 ) => {
 	const session = await requireSession();
 	const headers = getRequestHeaders();
@@ -35,7 +36,7 @@ export const requireOrgPermission = async (
 
 export const requireCourseManageAccess = async (
 	courseId: string,
-	permissions: Record<string, string[]>
+	permissions: Permission
 ) => {
 	const session = await requireSession();
 

@@ -1,7 +1,7 @@
 // oxlint-disable react/function-component-definition func-style
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_protected/")({ component: Home });
+export const Route = createFileRoute("/_protected/dashboard")({ component: Home });
 
 function Home() {
 	return (
