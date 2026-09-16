@@ -43,7 +43,7 @@ const OrganizationSwitcher = () => {
 					void authClient.organization.setActive({ organizationId });
 				}
 			}}
-			value={activeOrganization?.name}
+			value={activeOrganization?.id}
 		>
 			<SelectTrigger>
 				<IconBuilding data-icon="inline-start" />
