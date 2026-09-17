@@ -16,8 +16,8 @@ import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-pa
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
-import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
-import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
+import { Route as PublicLandingRouteImport } from './routes/_public/landing'
 import { Route as PublicSearchRouteImport } from './routes/_public/search'
 import { Route as ProtectedAcceptInvitationInvitationIdRouteImport } from './routes/_protected/accept-invitation/$invitationId'
 import { Route as ProtectedOrganizationsNewRouteImport } from './routes/_protected/organizations/new'
@@ -56,14 +56,14 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => ProtectedRouteRoute,
-} as any)
-const PublicIndexRoute = PublicIndexRouteImport.update({
+const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
+const PublicLandingRoute = PublicLandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
   getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicSearchRoute = PublicSearchRouteImport.update({
@@ -96,12 +96,12 @@ const ProtectedOrganizationsOrganizationIdMembersRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof PublicIndexRoute
+  '/': typeof ProtectedIndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
-  '/dashboard': typeof ProtectedDashboardRoute
+  '/landing': typeof PublicLandingRoute
   '/search': typeof PublicSearchRoute
   '/accept-invitation/$invitationId': typeof ProtectedAcceptInvitationInvitationIdRoute
   '/organizations/new': typeof ProtectedOrganizationsNewRoute
@@ -109,12 +109,12 @@ export interface FileRoutesByFullPath {
   '/organizations/$organizationId/members': typeof ProtectedOrganizationsOrganizationIdMembersRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof PublicIndexRoute
+  '/': typeof ProtectedIndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
-  '/dashboard': typeof ProtectedDashboardRoute
+  '/landing': typeof PublicLandingRoute
   '/search': typeof PublicSearchRoute
   '/accept-invitation/$invitationId': typeof ProtectedAcceptInvitationInvitationIdRoute
   '/organizations/new': typeof ProtectedOrganizationsNewRoute
@@ -130,9 +130,9 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
-  '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_public/landing': typeof PublicLandingRoute
   '/_public/search': typeof PublicSearchRoute
-  '/_public/': typeof PublicIndexRoute
+  '/_protected/': typeof ProtectedIndexRoute
   '/_protected/accept-invitation/$invitationId': typeof ProtectedAcceptInvitationInvitationIdRoute
   '/_protected/organizations/new': typeof ProtectedOrganizationsNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -146,7 +146,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
-    | '/dashboard'
+    | '/landing'
     | '/search'
     | '/accept-invitation/$invitationId'
     | '/organizations/new'
@@ -159,7 +159,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
-    | '/dashboard'
+    | '/landing'
     | '/search'
     | '/accept-invitation/$invitationId'
     | '/organizations/new'
@@ -174,9 +174,9 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/register'
     | '/_auth/reset-password'
-    | '/_protected/dashboard'
+    | '/_public/landing'
     | '/_public/search'
-    | '/_public/'
+    | '/_protected/'
     | '/_protected/accept-invitation/$invitationId'
     | '/_protected/organizations/new'
     | '/api/auth/$'
@@ -241,18 +241,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthResetPasswordRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/_protected/dashboard': {
-      id: '/_protected/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof ProtectedDashboardRouteImport
-      parentRoute: typeof ProtectedRouteRoute
-    }
-    '/_public/': {
-      id: '/_public/'
+    '/_protected/': {
+      id: '/_protected/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof PublicIndexRouteImport
+      preLoaderRoute: typeof ProtectedIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_public/landing': {
+      id: '/_public/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof PublicLandingRouteImport
       parentRoute: typeof PublicRouteRoute
     }
     '/_public/search': {
@@ -312,14 +312,14 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 )
 
 interface ProtectedRouteRouteChildren {
-  ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedIndexRoute: typeof ProtectedIndexRoute
   ProtectedAcceptInvitationInvitationIdRoute: typeof ProtectedAcceptInvitationInvitationIdRoute
   ProtectedOrganizationsNewRoute: typeof ProtectedOrganizationsNewRoute
   ProtectedOrganizationsOrganizationIdMembersRoute: typeof ProtectedOrganizationsOrganizationIdMembersRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
-  ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedIndexRoute: ProtectedIndexRoute,
   ProtectedAcceptInvitationInvitationIdRoute:
     ProtectedAcceptInvitationInvitationIdRoute,
   ProtectedOrganizationsNewRoute: ProtectedOrganizationsNewRoute,
@@ -332,13 +332,13 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
 )
 
 interface PublicRouteRouteChildren {
+  PublicLandingRoute: typeof PublicLandingRoute
   PublicSearchRoute: typeof PublicSearchRoute
-  PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicLandingRoute: PublicLandingRoute,
   PublicSearchRoute: PublicSearchRoute,
-  PublicIndexRoute: PublicIndexRoute,
 }
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
