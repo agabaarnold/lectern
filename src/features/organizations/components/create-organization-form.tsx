@@ -35,7 +35,7 @@ const CreateOrganizationForm = () => {
 							organizationId: data.id,
 						});
 						toast.success("School created");
-						navigate({ to: "/dashboard" });
+						navigate({ to: "/" });
 					},
 				},
 			});
