@@ -9,7 +9,7 @@ import { Image } from "#/components/ui/image.tsx";
 import { Skeleton } from "#/components/ui/skeleton.tsx";
 import { useCarousel } from "#/hooks/use-carousel.ts";
 
-export const Route = createFileRoute("/_public/")({
+export const Route = createFileRoute("/_public/landing")({
 	component: PublicRoutesLayout,
 });
 
