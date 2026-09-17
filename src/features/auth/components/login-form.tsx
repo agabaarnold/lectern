@@ -68,7 +68,7 @@ const LoginForm = () => {
 					},
 					onSuccess: () => {
 						toast.success("Welcome back!");
-						navigate({ to: search.redirect ?? "/dashboard", replace: true });
+						navigate({ to: search.redirect ?? "/", replace: true });
 					},
 				},
 			});
